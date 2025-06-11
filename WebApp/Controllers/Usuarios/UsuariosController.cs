@@ -2,6 +2,7 @@
 using Data.Interfaces.Grupo;
 using Data.Interfaces.Usuario;
 using Data.Models.Usuarios;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebApp.Models.Usuarios;
@@ -9,6 +10,7 @@ using WebApp.Models.Usuarios;
 namespace WebApp.Controllers.Usuarios
 {
     [Route("[controller]")]
+    [Authorize(Roles = "Administrador")]
     public class UsuariosController : Controller
     {
         private readonly ILogger<UsuariosController> _logger;
@@ -24,10 +26,25 @@ namespace WebApp.Controllers.Usuarios
             _logger = logger;
         }
 
-        [HttpGet("Index")]
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
+        }
+
+        [HttpGet]
+        [Route("Buscar")]
+        public async Task<IActionResult> Buscar(string? searchTerm = null)
+        {
+            try
+            {
+                var resultado = await usuarioServices.ObtenerUsuarios(searchTerm);
+                return PartialView("PartialComponents/_Result", resultado);
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
         }
 
         [HttpGet("Register")]

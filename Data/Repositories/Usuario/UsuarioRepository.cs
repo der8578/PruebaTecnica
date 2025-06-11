@@ -38,7 +38,7 @@ namespace Data.Repositories.Usuario
                 {
                     query = query.Where(x => x.Nombre.Contains(searchTerm));
                 }
-                return await query.ToListAsync();
+                return await query.Include(x => x.Grupo).ToListAsync();
             }
             catch (System.Exception)
             {

@@ -11,7 +11,7 @@ window.onSuccessGrabar = function (response) {
   const errorMessage = document.getElementById("message-errors");
   if (response.success) {
     errorMessage.textContent = "";
-    window.location.href = "/Register";
+    window.location.href = "/Usuarios";
   } else {
     errorMessage.textContent = response.message;
   }
