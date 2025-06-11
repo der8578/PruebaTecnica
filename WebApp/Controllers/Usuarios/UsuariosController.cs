@@ -1,10 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+
+using Data.Interfaces.Grupo;
+using Data.Interfaces.Usuario;
+using Data.Models.Usuarios;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using WebApp.Models.Usuarios;
 
 namespace WebApp.Controllers.Usuarios
@@ -13,9 +12,15 @@ namespace WebApp.Controllers.Usuarios
     public class UsuariosController : Controller
     {
         private readonly ILogger<UsuariosController> _logger;
+        private readonly IGrupoServices grupoServices;
+        private readonly IUsuarioServices usuarioServices;
 
-        public UsuariosController(ILogger<UsuariosController> logger)
+        public UsuariosController(ILogger<UsuariosController> logger
+            , IGrupoServices grupoServices
+            , IUsuarioServices usuarioServices)
         {
+            this.grupoServices = grupoServices;
+            this.usuarioServices = usuarioServices;
             _logger = logger;
         }
 
@@ -26,13 +31,24 @@ namespace WebApp.Controllers.Usuarios
         }
 
         [HttpGet("Register")]
-        public IActionResult Register()
+        public async Task<IActionResult> Register()
         {
+            await ObtenerGrupos();
             return View();
         }
 
+        public async Task ObtenerGrupos()
+        {
+            var Grupos = await grupoServices.ObtenerGrupos();
+            ViewBag.ListGrupos = Grupos.Select(c => new SelectListItem
+            {
+                Value = c.IdGrupo.ToString(),
+                Text = c.Nombre,
+            }).ToList();
+        }
+
         [HttpPost("Crear")]
-        public ActionResult Crear(UsuarioDTO model)
+        public async Task<ActionResult> Crear(UsuarioDTO model)
         {
             try
             {
@@ -40,12 +56,18 @@ namespace WebApp.Controllers.Usuarios
                 {
                     return View(model);
                 }
-                return View(model);
+                UsuarioModel Usuario = new()
+                {
+                    Nombre = model.Usuario,
+                    ContraseniaHash = model.Contrasenia,
+                    IdGrupo = model.IdGrupo
+                };
+                await usuarioServices.Grabar(Usuario);
+                return Json(new { success = true });
             }
-            catch (System.Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                return Json(new { success = false, message = "Error: " + ex.Message });
             }
         }
 

@@ -6,3 +6,13 @@ submitButton.addEventListener("click", function (e) {
     e.preventDefault();
   }
 });
+
+window.onSuccessGrabar = function (response) {
+  const errorMessage = document.getElementById("message-errors");
+  if (response.success) {
+    errorMessage.textContent = "";
+    window.location.href = "/Register";
+  } else {
+    errorMessage.textContent = response.message;
+  }
+};
