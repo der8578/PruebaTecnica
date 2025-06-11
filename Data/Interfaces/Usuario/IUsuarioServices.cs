@@ -10,5 +10,7 @@ namespace Data.Interfaces.Usuario
     {
         Task<IEnumerable<UsuarioModel>> ObtenerUsuarios(string? searchTerm = null);
         Task Grabar(UsuarioModel model);
+
+        Task<UsuarioModel> Login(string Usuario, string Contrasenia);
     }
 }

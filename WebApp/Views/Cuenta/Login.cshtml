@@ -1,0 +1,41 @@
+@using WebApp.Models.Usuarios
+@{
+     ViewData["Title"] = "Busqueda de Usuarios";
+}
+@model LoginDTO
+<h1>Iniciar Sesion</h1>
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4"> 
+        <form method="post" action="/Cuenta/Login" id="login-form"
+            data-ajax-success="onSuccessLogin">
+            <h4 class="mb-4 text-center">Iniciar Sesión</h4>
+
+            <div class="form-group mb-3">
+                <label asp-for="Usuario">Usuario</label>
+                @Html.TextBoxFor(x => x.Usuario, new { @class = "form-control", @placeholder = "Ingrese su usuario" })
+                @Html.ValidationMessageFor(x => x.Usuario, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Contrasenia">Contraseña</label>
+                @Html.PasswordFor(x => x.Contrasenia, new { @class = "form-control", @placeholder = "Ingrese su contraseña" })
+                @Html.ValidationMessageFor(x => x.Contrasenia, "", new { @class = "text-danger" })
+            </div> 
+            <div class="d-grid mb-2">
+                <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger text-center" role="alert">
+                    @ViewBag.Error
+                </div>
+            }
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" /> 
+}

@@ -45,5 +45,19 @@ namespace Data.Repositories.Usuario
                 throw;
             }
         }
+
+        public async Task<UsuarioModel> GetUsuarioByName(string Nombre)
+        {
+            try
+            {
+                return await dbContext.Set<UsuarioModel>()
+                    .Where(x => x.Nombre == Nombre).Include(x => x.Grupo).FirstOrDefaultAsync();
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

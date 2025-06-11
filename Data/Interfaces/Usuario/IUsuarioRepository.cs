@@ -9,6 +9,6 @@ namespace Data.Interfaces.Usuario
 {
     public interface IUsuarioRepository : IGetAll<UsuarioModel>, IAdd<UsuarioModel>
     {
-
+        Task<UsuarioModel> GetUsuarioByName(string Nombre);
     }
 }

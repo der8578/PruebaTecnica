@@ -25,7 +25,34 @@ namespace Data.Services.Usuario
             }
             catch (System.Exception)
             {
+                throw;
+            }
+        }
 
+        public async Task<UsuarioModel> Login(string Usuario, string Contrasenia)
+        {
+            try
+            {
+                var User = await repository.GetUsuarioByName(Usuario);
+                if (User != null)
+                {
+                    bool ContraseniaValida = VerifyPassword(Contrasenia, User.ContraseniaHash);
+                    if (ContraseniaValida)
+                    {
+                        return User;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (System.Exception)
+            {
                 throw;
             }
         }
@@ -40,6 +67,11 @@ namespace Data.Services.Usuario
             {
                 throw;
             }
+        }
+
+        private bool VerifyPassword(string inputPassword, string hashedPassword)
+        {
+            return BCrypt.Net.BCrypt.Verify(inputPassword, hashedPassword);
         }
     }
 }
