@@ -1,0 +1,41 @@
+@using WebApp.Models.Usuarios
+
+@{
+    ViewData["Title"] = "Registro de Usuarios";
+}
+@model UsuarioDTO
+
+<h1>Registro de Usuarios</h1>
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <form method="post" action="/Usuarios/Crear" data-ajax="true" data-ajax-method="POST" id="save-form">
+            <div class="form-group mb-3">
+                <label asp-for="Usuario">Usuario</label>
+                @Html.TextBoxFor(x => x.Usuario, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Usuario, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Contrasenia">Contraseña</label>
+                @Html.PasswordFor(x => x.Contrasenia, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Contrasenia, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group mb-4">
+                <label asp-for="ConfirmarContrasenia">Confirmar Contraseña</label>
+                @Html.PasswordFor(x => x.ConfirmarContrasenia, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.ConfirmarContrasenia, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary" id="btn-crear">Grabar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+    <script type="module" src="~/js/register/register.js" asp-append-version="true"></script>
+}
