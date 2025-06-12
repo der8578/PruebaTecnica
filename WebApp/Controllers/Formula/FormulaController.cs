@@ -1,7 +1,9 @@
+using System.Security.Cryptography;
 using Data.Interfaces.Formula;
 using Data.Interfaces.Producto;
 using Data.Models.Formula;
 using Data.Models.FormulaMateriales;
+using Data.Services.Formula;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -32,6 +34,21 @@ namespace WebApp.Controllers.Formula
         public IActionResult Index()
         {
             return View();
+        }
+
+        [HttpGet("Buscar")]
+        public async Task<IActionResult> Buscar(string searchTerm)
+        {
+            try
+            {
+                var result = await formulaServices.ObtenerFormulas(searchTerm);
+                return PartialView("PartialComponents/_Result", result);
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
         }
 
         [HttpGet("Create")]
