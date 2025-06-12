@@ -1,0 +1,21 @@
+@using Data.Models.FormulaMateriales
+@using WebApp.Models.Formula
+@{
+    ViewData["Title"] = "Editar Fórmula";
+}
+@model FormulaDTO
+
+<h1>Editar Fórmula</h1>
+<form method="post" action="/Formula/Actualizar" data-ajax="true" data-ajax-method="POST" id="save-form"
+    data-ajax-failure="onFailure" data-ajax-success="onSuccessModificar">
+    @{
+        await Html.RenderPartialAsync("PartialComponents/_DataForm", Model);
+    }
+
+</form>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+    <script type="module" src="~/js/Formula/formula.js" asp-append-version="true"></script>
+}

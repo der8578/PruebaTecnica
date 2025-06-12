@@ -5,7 +5,8 @@ btnAgregar.addEventListener("click", function (e) {
   e.preventDefault();
   const selectElement = document.getElementById("idProductoItem");
   const idProductoItem = selectElement.value;
-  const cantidadItem = document.getElementById("cantidadItem").value;
+  const cantidadInput = document.getElementById("cantidadItem");
+  const cantidadItem = cantidadInput.value;
   const selectedText = selectElement.options[selectElement.selectedIndex].text;
 
   const dataJson = {
@@ -25,6 +26,8 @@ btnAgregar.addEventListener("click", function (e) {
         console.log("Item agregado correctamente");
         $("#txt-errors").text("");
         addItems(dataJson);
+        selectElement.value = "";
+        cantidadInput.value = 0;
       } else {
         const mensajes = response.errors
           .map((err) => err.errormessage)
@@ -110,6 +113,14 @@ window.onSuccessGrabar = function (response) {
   console.log(response);
   if (response.success) {
     alert("Registro grabado correctamente.");
+    window.location.href = "/Formula";
+  }
+};
+
+window.onSuccessModificar = function (response) {
+  console.log(response);
+  if (response.success) {
+    alert("Registro modificado correctamente.");
     window.location.href = "/Formula";
   }
 };

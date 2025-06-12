@@ -9,7 +9,7 @@ using Data.Models.Producto;
 
 namespace Data.Models.FormulaMateriales
 {
-    [Table(name: "FormulaMaterial")]
+    [Table(name: "FormulaMateriales")]
     public class FormulaMaterialesModel
     {
         [Key, Column(Order = 0)]

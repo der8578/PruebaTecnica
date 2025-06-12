@@ -1,0 +1,84 @@
+@using Data.Models.FormulaMateriales
+@using WebApp.Models.Formula
+@{
+    List<SelectListItem> ListProductos = ViewBag.ListProductos;
+}
+@model FormulaDTO
+
+<div class="row">
+    <div class="col-md-10">
+        <div class="form-group">
+            <label asp-for="Nombre">Nombre</label>
+            @Html.HiddenFor(x => x.IdFormula)
+            @Html.TextBoxFor(x => x.Nombre, new { @id = "txtNombreFormula", @class = "form-control" })
+            @Html.ValidationMessageFor(x => x.Nombre, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="col-md-2">
+        <br />
+        <button type="submit" class="btn btn-primary mb-2" id="btn-Crear">Guardar Cambios</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div id="validation-summary" class="text-danger"></div>
+    </div>
+</div>
+<hr />
+<h4>Materiales de la fórmula</h4>
+<div class="row">
+    <div class="col-md-7">
+        <label class="sr-only" for="idProductoItem">Producto</label>
+        <select id="idProductoItem" name="Item.IdProducto" class="form-control">
+            <option value="">Seleccione un Producto</option>
+            @foreach (var producto in ListProductos)
+            {
+                <option value="@producto.Value">@producto.Text</option>
+            }
+        </select>
+    </div>
+
+    <div class="col-md-4">
+        <label class="sr-only" for="cantidadItem">Cantidad</label>
+        <input type="text" id="cantidadItem" name="Item.Cantidad" class="form-control" />
+    </div>
+    <div class="col-md-1">
+        <br />
+        <button type="button" class="btn btn-secondary mb-2" id="btn-Agregar" value="AddItem">Agregar</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <span id="txt-errors" class="text-red"></span>
+    </div>
+</div>
+<table class="table table-striped table-hover" id="materialesTable">
+    <thead class="table-dark">
+        <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.Materiales.Count; i++)
+        {
+            <tr>
+                <td>
+                    <input type="hidden" name="Materiales[@i].IdProducto" value="@Model.Materiales[i].IdProducto" />
+                    <input type="hidden" name="Materiales[@i].Nombre" value="@Model.Materiales[i].Nombre" />
+                    @Model.Materiales[i].Nombre
+                </td>
+                <td>
+                    <input type="hidden" name="Materiales[@i].Cantidad" value="@Model.Materiales[i].Cantidad" />
+                    @Model.Materiales[i].Cantidad
+                </td>
+                <td>
+                    <button type="hidden" type="button" class="btn btn-danger btn-sm"
+                        onclick="eliminarFila(this)">Eliminar</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<input type="hidden" value="@(Model.Materiales != null ? Model.Materiales.Count() : 0)" id="hdnRowsCount" />

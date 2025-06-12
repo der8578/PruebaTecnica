@@ -60,49 +60,9 @@ namespace WebApp.Controllers.Formula
         }
 
         [HttpPost("Grabar")]
-        public IActionResult Grabar(FormulaDTO model)
+        public async Task<IActionResult> Grabar(FormulaDTO model)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    var errores = ModelState
-                        .Where(x => x.Value.Errors.Count > 0)
-                        .Select(x => new
-                        {
-                            Campo = x.Key,
-                            Mensajes = x.Value.Errors.Select(e => e.ErrorMessage).ToArray()
-                        });
-
-                    return BadRequest(new { errores });
-                }
-
-                decimal Cantidad = model.Materiales.Sum(x => x.Cantidad);
-                model.Cantidad = Cantidad;
-
-                FormulaModel formula = new()
-                {
-                    IdFormula = model.IdFormula,
-                    Nombre = model.Nombre,
-                    Cantidad = model.Cantidad,
-                    Materiales = model.Materiales
-                    .Select(m => new FormulaMaterialesModel
-                    {
-                        IdFormula = m.IdFormula,
-                        IdProducto = m.IdProducto,
-                        Nombre = m.Nombre,
-                        Cantidad = m.Cantidad
-                    }).ToList()
-
-                };
-                formulaServices.Grabar(formula);
-
-                return Json(new { success = true });
-            }
-            catch (System.Exception)
-            {
-                throw;
-            }
+            return await ProcesarFormula(model, formulaServices.Grabar);
         }
 
         [HttpPost("ValidItem")]
@@ -117,6 +77,88 @@ namespace WebApp.Controllers.Formula
                 return Json(new { success = false, result.Errors });
             }
             return Json(new { success = true });
+        }
+
+        [HttpGet("Edit")]
+        public async Task<IActionResult> Edit(int id)
+        {
+            try
+            {
+                await ObtenerGrupos();
+                var Formula = await formulaServices.ObtenerFormulaPorId(id);
+                FormulaDTO model = new()
+                {
+                    IdFormula = Formula.IdFormula,
+                    Nombre = Formula.Nombre,
+                    Cantidad = Formula.Cantidad,
+                    Materiales = Formula.Materiales
+                    .Select(m => new FormulaMaterialesModel
+                    {
+                        IdFormula = m.IdFormula,
+                        IdProducto = m.IdProducto,
+                        Nombre = m.Nombre,
+                        Cantidad = m.Cantidad
+                    }).ToList()
+                };
+                return View(model);
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
+
+
+        [HttpPost("Actualizar")]
+        public async Task<IActionResult> Actualizar(FormulaDTO model)
+        {
+            return await ProcesarFormula(model, formulaServices.Actualizar);
+        }
+        private async Task<IActionResult> ProcesarFormula(FormulaDTO model, Func<FormulaModel, Task> accion)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ObtenerErroresModelState());
+                }
+
+                model.Cantidad = model.Materiales.Sum(x => x.Cantidad);
+
+                var formula = new FormulaModel
+                {
+                    IdFormula = model.IdFormula,
+                    Nombre = model.Nombre,
+                    Cantidad = model.Cantidad,
+                    Materiales = model.Materiales.Select(m => new FormulaMaterialesModel
+                    {
+                        IdFormula = m.IdFormula,
+                        IdProducto = m.IdProducto,
+                        Nombre = m.Nombre,
+                        Cantidad = m.Cantidad
+                    }).ToList()
+                };
+
+                await accion(formula);
+                return Json(new { success = true });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private object ObtenerErroresModelState()
+        {
+            var errores = ModelState
+                .Where(x => x.Value.Errors.Count > 0)
+                .Select(x => new
+                {
+                    Campo = x.Key,
+                    Mensajes = x.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                });
+
+            return new { errores };
         }
     }
 }

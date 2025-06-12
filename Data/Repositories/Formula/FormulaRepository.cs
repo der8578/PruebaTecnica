@@ -19,12 +19,11 @@ namespace Data.Repositories.Formula
         }
         public async Task AddAsync(FormulaModel model)
         {
-            using var transaction = dbContext.Database.BeginTransaction();
+            var transaction = await dbContext.Database.BeginTransactionAsync();
             try
             {
                 dbContext.Formulas.Add(model);
                 await dbContext.SaveChangesAsync();
-
                 await transaction.CommitAsync();
             }
             catch (System.Exception)
@@ -58,7 +57,7 @@ namespace Data.Repositories.Formula
 
         public async Task UpdateAsync(FormulaModel model)
         {
-            using var transaction = dbContext.Database.BeginTransaction();
+            var transaction = await dbContext.Database.BeginTransactionAsync();
             try
             {
                 var formula = await dbContext.Formulas
