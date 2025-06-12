@@ -10,7 +10,7 @@ namespace WebApp.Models.Formula
     {
         public int IdFormula { get; set; }
         public string? Nombre { get; set; }
-        public int Cantidad { get; set; }
+        public decimal Cantidad { get; set; }
         public List<FormulaMaterialesModel> Materiales { get; set; } = new();
     }
 }

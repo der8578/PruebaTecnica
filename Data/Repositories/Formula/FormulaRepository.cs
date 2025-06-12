@@ -47,7 +47,6 @@ namespace Data.Repositories.Formula
             }
             catch (System.Exception)
             {
-
                 throw;
             }
         }
