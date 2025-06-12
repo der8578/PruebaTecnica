@@ -7,7 +7,11 @@ using Data.Models.Producto;
 
 namespace Data.Interfaces.Producto
 {
-    public interface IProductoRepository : IGetAll<ProductoModel>
+    public interface IProductoRepository
+    : IGetAll<ProductoModel>
+        , IGetById<ProductoModel>
+        , IAdd<ProductoModel>
+        , IUpdate<ProductoModel>
     {
 
     }
