@@ -21,12 +21,14 @@ namespace WebApp
             services.AddScoped<IGrupoRepository, GrupoRepository>()
             .AddScoped<IUsuarioRepository, UsuarioRepository>()
             .AddScoped<IProductoRepository, ProductoRepository>()
-            .AddScoped<IFormulaRepository, FormulaRepository>();
+            .AddScoped<IFormulaRepository, FormulaRepository>()
+            .AddScoped<IProductoRepository, ProductoRepository>();
 
             services.AddScoped<IGrupoServices, GrupoServices>()
             .AddScoped<IUsuarioServices, UsuarioServices>()
             .AddScoped<IProductoServices, ProductoServices>()
-            .AddScoped<IFormulaServices, FormulaServices>();
+            .AddScoped<IFormulaServices, FormulaServices>()
+            .AddScoped<IProductoServices, ProductoServices>();
         }
     }
 }

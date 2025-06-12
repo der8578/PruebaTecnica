@@ -1,5 +1,5 @@
-@using Data.Models.Formula
-@model IEnumerable<FormulaModel>
+@using Data.Models.Producto
+@model IEnumerable<ProductoModel>
 
 <!-- Resultados de búsqueda -->
 <div class="row mt-5">
@@ -13,7 +13,7 @@
                             <th></th>
                             <th>ID</th>
                             <th>Nombre</th>
-                            <th>Cantidad</th>
+                            <th>Unidad</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -21,16 +21,15 @@
                         {
                             <tr>
                                 <td>
-                                    <a href="@Url.Action("Edit", "Formula", new { Id = item.IdFormula })"
+                                    <a href="@Url.Action("Edit", "Producto", new { Id = item.IdProducto })"
                                         target="_blank">Editar</a>
                                 </td>
-                                <td>@item.IdFormula</td>
+                                <td>@item.IdProducto</td>
                                 <td>@item.Nombre</td>
-                                <td>@item.Cantidad</td>
+                                <td>@item.Unidad</td>
                             </tr>
                         }
                     </tbody>
-                </table>
             </div>
         }
         else

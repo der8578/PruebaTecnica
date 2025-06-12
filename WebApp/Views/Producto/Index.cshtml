@@ -1,0 +1,30 @@
+@{
+    ViewData["Title"] = "Busqueda de Formulas";
+}
+<h1>Busqueda de Registros</h1>
+<div class="row">
+    <form method="get" action="/Producto/Buscar" data-ajax="true" data-ajax-method="GET" data-ajax-update="#resultados"
+        data-ajax-mode="replace" id="search-form">
+        <div class="row g-3 align-items-center">
+            <div class="col-md-8">
+                <input type="text" name="searchTerm" class="form-control"
+                    placeholder="Ingrese término de búsqueda..." />
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-primary">
+                    Buscar
+                </button>
+                <a href="@Url.Action("Create", "Producto")" target="_blank" class="btn btn-primary">
+                    Agregar
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div id="resultados"></div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
