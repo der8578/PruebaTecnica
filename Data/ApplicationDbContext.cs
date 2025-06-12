@@ -53,10 +53,10 @@ namespace Data
                 .HasForeignKey(u => u.IdGrupo);
 
             // Relación: Formula -> Producto
-            modelBuilder.Entity<FormulaModel>()
-                .HasOne(f => f.Producto)
-                .WithMany()
-                .HasForeignKey(f => f.IdProducto);
+            // modelBuilder.Entity<FormulaModel>()
+            //     .HasOne(f => f.Producto)
+            //     .WithMany()
+            //     .HasForeignKey(f => f.IdProducto);
         }
     }
 }

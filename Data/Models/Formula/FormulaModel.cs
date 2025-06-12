@@ -15,10 +15,10 @@ namespace Data.Models.Formula
         [Key]
         public int IdFormula { get; set; }
 
-        [ForeignKey("Producto")]
-        public int IdProducto { get; set; }
+        // [ForeignKey("Producto")]
+        // public int IdProducto { get; set; }
 
-        public ProductoModel Producto { get; set; }
+        // public ProductoModel Producto { get; set; }
 
         [Required]
         public string Nombre { get; set; }

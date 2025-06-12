@@ -50,7 +50,7 @@ namespace Data.Repositories.Usuario
         {
             try
             {
-                return await dbContext.Set<UsuarioModel>()
+                return await dbContext.Usuarios
                     .Where(x => x.Nombre == Nombre).Include(x => x.Grupo).FirstOrDefaultAsync();
             }
             catch (System.Exception)

@@ -8,6 +8,6 @@ namespace Data.Interfaces.Producto
 {
     public interface IProductoServices
     {
-        Task<IEnumerable<ProductoModel>> ObtenerProductos(string searchTerm);
+        Task<IEnumerable<ProductoModel>> ObtenerProductos(string? searchTerm = null);
     }
 }

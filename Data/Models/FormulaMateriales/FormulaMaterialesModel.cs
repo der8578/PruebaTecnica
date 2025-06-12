@@ -24,9 +24,9 @@ namespace Data.Models.FormulaMateriales
         public decimal Cantidad { get; set; }
 
         [ForeignKey("IdFormula")]
-        public FormulaModel Formula { get; set; }
+        public FormulaModel? Formula { get; set; }
 
         [ForeignKey("IdProducto")]
-        public ProductoModel Producto { get; set; }
+        public ProductoModel? Producto { get; set; }
     }
 }

@@ -16,7 +16,7 @@ namespace Data.Repositories.Grupo
         {
             try
             {
-                var query = dbContext.Set<GrupoModel>().AsQueryable();
+                var query = dbContext.Grupos.AsQueryable();
                 if (!string.IsNullOrWhiteSpace(searchTerm))
                 {
                     query = query.Where(x => x.Nombre.Contains(searchTerm));
