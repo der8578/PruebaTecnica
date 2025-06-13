@@ -14,7 +14,7 @@ using WebApp.Validators.Formula;
 namespace WebApp.Controllers.Formula
 {
     [Route("[controller]")]
-    [Authorize(Roles = "Administrador")]
+    [Authorize(Roles = "Administradores")]
     public class FormulaController : Controller
     {
         private readonly ILogger<FormulaController> _logger;
